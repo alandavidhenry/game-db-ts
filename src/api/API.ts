@@ -7,7 +7,7 @@ if (!apiKey) {
 }
 
 const axiosInstance = axios.create({
-    baseURL: 'https://corsproxy.io/https://api.rawg.io/api',
+    baseURL: 'https://api.rawg.io/api',
     params: {
         key: apiKey,
     },
@@ -16,10 +16,16 @@ const axiosInstance = axios.create({
 const getGenres = () => axiosInstance.get('/genres').catch(handleError);
 const getAllGames = () => axiosInstance.get('/games').catch(handleError);
 const getTopFiveGames = () => axiosInstance.get('/games', { params: { page_size: 5 } }).catch(handleError);
+const getGamesByGenreId = (genreId: number) => axiosInstance.get('/games', {
+    params: {
+        genres: genreId,
+        page_size: 20
+    }
+});
 
 const handleError = (error: any) => {
     console.error('API request error', error);
     throw error;
 }
 
-export { getGenres, getAllGames, getTopFiveGames };
+export { getGenres, getAllGames, getTopFiveGames, getGamesByGenreId };
